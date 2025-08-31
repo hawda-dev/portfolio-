@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hawda — Developer Portfolio</title>
+  <meta name="description" content="Hawda — Experienced C, C++, Lua developer. Contributed over 10M visits.">
+  <style>
+    :root{
+      --bg1:#0f1724; --bg2:#071029; --accent:#7cf9ff; --accent-2:#9b7cff; --muted:rgba(255,255,255,0.65);
+      --glass: rgba(255,255,255,0.04);
+      --card: rgba(255,255,255,0.02);
+      --glass-2: rgba(255,255,255,0.03);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
+      --ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    /* Respect user preference for reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation-duration: 0.001ms !important; transition-duration: 0.001ms !important;}
+    }
+    /* page reset */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--ui); color:white; background:radial-gradient(1200px 600px at 10% 10%, rgba(124,249,255,0.06), transparent 10%), radial-gradient(800px 400px at 90% 90%, rgba(155,124,255,0.04), transparent 10%), linear-gradient(120deg,var(--bg1),var(--bg2));
+      overflow-x:hidden; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* animated gradient overlay */
+    .grain{position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size:100% 4px; mix-blend-mode:overlay; opacity:0.4; animation: drift 20s linear infinite;}
+    @keyframes drift{from{transform:translateY(0)} to{transform:translateY(-200px)}}
+
+    /* container */
+    .wrap{max-width:1100px;margin:48px auto;padding:32px;position:relative}
+
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:center}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:var(--radius); padding:28px; box-shadow:0 10px 30px rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.03); backdrop-filter: blur(6px); position:relative; overflow:hidden}
+
+    h1{font-size:clamp(28px,4vw,44px); margin:0 0 8px; letter-spacing:-0.02em; line-height:1}
+    .tagline{color:var(--muted); font-size:14px}
+
+    /* neon name */
+    .neon{color:var(--accent); font-weight:800; text-shadow:0 0 10px rgba(124,249,255,0.18), 0 0 30px rgba(155,124,255,0.06); display:inline-block; position:relative}
+    .neon::after{content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(124,249,255,0.06), rgba(155,124,255,0.06)); mix-blend-mode:screen; opacity:0.9; filter:blur(10px); animation: neonPulse 2.8s ease-in-out infinite}
+    @keyframes neonPulse{0%{opacity:0.7; transform:translateY(0)}50%{opacity:1; transform:translateY(-3px)}100%{opacity:0.7; transform:translateY(0)}}
+
+    /* animated blobs */
+    .blobs{position:absolute; inset:auto 0 0 0; height:260px; pointer-events:none}
+    .blob{position:absolute;border-radius:999px;filter:blur(40px); opacity:0.6; mix-blend-mode:screen; animation: blobMove 12s ease-in-out infinite}
+    .blob.b1{width:420px;height:420px; left:-80px; bottom:-120px; background:linear-gradient(120deg,var(--accent),var(--accent-2)); animation-duration:18s}
+    .blob.b2{width:300px;height:300px; right:-80px; bottom:-60px; background:linear-gradient(180deg,#ff7ab6,#7cf9ff); animation-duration:14s}
+    .blob.b3{width:220px;height:220px; left:30%; bottom:-80px; background:linear-gradient(90deg,#ffd77a,#9b7cff); animation-duration:16s}
+    @keyframes blobMove{0%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-30px) rotate(20deg)}100%{transform:translateY(0) rotate(0deg)}}
+
+    /* stats */
+    .stats{display:flex;gap:12px;margin-top:16px}
+    .stat{flex:1;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.02);}
+    .stat h3{margin:0;font-size:20px}
+    .stat p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    /* skills */
+    .skills{margin-top:20px}
+    .skill{display:flex;align-items:center;gap:12px;margin:12px 0}
+    .skill .name{width:90px;font-weight:700;font-size:14px}
+    .bar{flex:1;height:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:999px; overflow:hidden; position:relative}
+    .bar > i{display:block;height:100%;width:0%; border-radius:999px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); box-shadow:0 6px 18px rgba(124,249,255,0.08); animation: fill 2s cubic-bezier(.2,.9,.2,1) forwards}
+    .skill .val{width:60px;text-align:right;color:var(--muted);font-size:13px}
+    @keyframes fill{from{width:0%} to{width:var(--w,80%)}}
+
+    /* projects */
+    .projects{margin-top:26px; display:grid; grid-template-columns: repeat(2, 1fr); gap:14px}
+    .proj{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.03); transition:transform .5s cubic-bezier(.12,.9,.3,1), box-shadow .3s}
+    .proj:hover{transform:translateY(-8px) scale(1.02); box-shadow:0 20px 50px rgba(2,6,23,0.6)}
+    .proj h4{margin:0 0 6px}
+    .proj p{margin:0;color:var(--muted);font-size:13px}
+
+    /* right column */
+    .card.side{height:100%;display:flex;flex-direction:column; justify-content:space-between; align-items:stretch}
+    .contact{display:flex;flex-direction:column;gap:10px}
+    .contact a{display:inline-flex;align-items:center;gap:10px;padding:10px;border-radius:10px;text-decoration:none;color:var(--muted);background:var(--card);border:1px solid rgba(255,255,255,0.02)}
+
+    /* animated footer wave */
+    .wave{position:relative;margin-top:26px;padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); overflow:hidden}
+    .wave::before{content:'';position:absolute;left:-20%;right:-20%;height:300px;bottom:-40%;background:radial-gradient(circle at 10% 30%, rgba(124,249,255,0.06), transparent 20%), radial-gradient(circle at 90% 70%, rgba(155,124,255,0.05), transparent 20%); transform:translateY(0); animation: waveMove 10s linear infinite}
+    @keyframes waveMove{0%{transform:translateX(-5%)}50%{transform:translateX(5%)}100%{transform:translateX(-5%)}}
+
+    /* badges */
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));font-weight:700; font-size:12px}
+
+    /* footer */
+    footer{margin:40px auto 120px; text-align:center; color:var(--muted); font-size:13px}
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .projects{grid-template-columns:1fr}
+      .wrap{padding:20px}
+    }
+
+    /* micro-animations */
+    .flicker{animation:flicker 3s infinite}
+    @keyframes flicker{0%{opacity:1}5%{opacity:.4}10%{opacity:1}20%{opacity:.7}100%{opacity:1}}
+
+    /* subtle entrance */
+    .card{opacity:0; transform:translateY(10px); animation:up .9s cubic-bezier(.2,.9,.2,1) forwards}
+    .card:nth-of-type(1){animation-delay:.08s}
+    .card:nth-of-type(2){animation-delay:.12s}
+    .card:nth-of-type(3){animation-delay:.16s}
+    @keyframes up{to{opacity:1; transform:none}}
+
+    /* small utilities */
+    .muted{color:var(--muted)}
+    .row{display:flex;gap:12px;align-items:center}
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="wrap">
+
+    <div class="hero">
+      <section class="card">
+        <div style="position:relative;z-index:2">
+          <h1><span class="neon">Hawda</span> — Software Developer</h1>
+          <div class="tagline">Experienced in <strong>C</strong>, <strong>C++</strong>, and <strong>Lua</strong>. Focused on high-performance code, tooling, and playful systems.</div>
+
+          <div class="stats" aria-hidden>
+            <div class="stat">
+              <h3 class="flicker">10M+</h3>
+              <p>Contributed visits (combined across projects)</p>
+            </div>
+            <div class="stat">
+              <h3>15+</h3>
+              <p>Major projects & libraries</p>
+            </div>
+            <div class="stat">
+              <h3>Years</h3>
+              <p class="muted">Ongoing experience</p>
+            </div>
+          </div>
+
+          <div class="skills" aria-label="Skills">
+            <div style="display:flex;align-items:center;justify-content:space-between"><strong>Core skills</strong><span class="badge">Neat & Animated</span></div>
+
+            <div class="skill" style="--w:95%">
+              <div class="name">C</div>
+              <div class="bar"><i style="width:95%"></i></div>
+              <div class="val">95%</div>
+            </div>
+            <div class="skill" style="--w:92%">
+              <div class="name">C++</div>
+              <div class="bar"><i style="width:92%"></i></div>
+              <div class="val">92%</div>
+            </div>
+            <div class="skill" style="--w:88%">
+              <div class="name">Lua</div>
+              <div class="bar"><i style="width:88%"></i></div>
+              <div class="val">88%</div>
+            </div>
+          </div>
+
+          <div class="projects" aria-label="Highlighted projects">
+            <article class="proj">
+              <h4>High-performance network tool</h4>
+              <p class="muted">Systems-level code in C++ handling millions of connections.</p>
+            </article>
+            <article class="proj">
+              <h4>Game scripting framework</h4>
+              <p class="muted">Lua-based runtime and tooling for large-scale user content.</p>
+            </article>
+            <article class="proj">
+              <h4>CLI utilities & libraries</h4>
+              <p class="muted">C libraries focused on small size and speed.</p>
+            </article>
+            <article class="proj">
+              <h4>Developer tools & plugins</h4>
+              <p class="muted">Extensions and automations used across communities.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="blobs" aria-hidden>
+          <div class="blob b1"></div>
+          <div class="blob b2"></div>
+          <div class="blob b3"></div>
+        </div>
+      </section>
+
+      <aside class="card side">
+        <div>
+          <h3>Contact</h3>
+          <p class="muted">Reach out or find me on these platforms:</p>
+          <div class="contact">
+            <a href="#" title="Discord">Discord — <strong>hawda_</strong></a>
+            <a href="#" title="Roblox">Roblox — <strong>hawda_dev</strong></a>
+            <a href="#" title="Email">Email — <strong>hello@hawda.dev</strong></a>
+          </div>
+
+          <div style="margin-top:18px">
+            <h4>Quick facts</h4>
+            <p class="muted">I build fast, reliable software — often in C/C++/Lua. Contributed to projects that together passed <strong>10M+</strong> visits.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="wave">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-weight:800">Let's build something</div>
+                <div class="muted" style="font-size:13px">Open to collaboration, contract, and long-term roles.</div>
+              </div>
+              <div style="text-align:right">
+                <div class="badge">Available</div>
+                <div class="muted" style="font-size:12px;margin-top:6px">Discord: hawda_</div>
+                <div class="muted" style="font-size:12px">Roblox: hawda_dev</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:14px;justify-content:space-between">
+            <a class="badge" href="#projects">View projects</a>
+            <a class="badge" href="#contact">Get in touch</a>
+            <a class="badge" href="#resume">Resume</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div class="muted">Made with ❤️ — Hawda • Experienced C, C++, Lua developer • Contributed 10M+ visits</div>
+    </footer>
+  </div>
+</body>
+</html>
